@@ -77,6 +77,17 @@ def win_condition(gr, le):
             (gr[9] == le and gr[5] == le and gr[1] == le))  # diagonal 2
 
 
+def get_grid_copy(grid):
+    """
+    This function makes a duplicate of the grid list and returns it.
+    The duplicate is used by the computer to make non-permanent changes
+    to a temporary copy of the grid without changing the original.
+    """
+    copy_grid = []
+    for i in grid:
+        copy_grid.append(i)
+    return copy_grid
+
 
 def check_free_space(grid, move):
     """
