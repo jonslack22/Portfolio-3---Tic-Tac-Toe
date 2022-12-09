@@ -113,6 +113,16 @@ def computer_move(grid, computer_letter):
         player_letter = 'X'
 
 
+def is_grid_full(grid):
+    """
+    If every space on the grid is filled, this returns True.
+    """	
+    for i in range(1, 10):
+        if check_free_space(grid, i):
+            return False
+    return True
+
+
 print(
     """
     \u001b[32m
@@ -153,3 +163,10 @@ while True:
                 create_grid(the_grid)
                 print('Congratulations! You have won the game!')
                 game_active = False
+            else:
+                if is_grid_full(the_grid):
+                    create_grid(the_grid)
+                    print('The game is a tie!')
+                    break
+                else:
+                    turn = 'computer'
