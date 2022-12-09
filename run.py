@@ -170,3 +170,18 @@ while True:
                     break
                 else:
                     turn = 'computer'
+        else:
+            # The computer’s turn.
+            move = computer_move(the_grid, computer_letter)
+            make_a_move(the_grid, computer_letter, move)
+            if win_condition(the_grid, computer_letter):
+                create_grid(the_grid)
+                print('The computer has beaten you! You lose.')
+                game_active = False
+            else:
+                if is_grid_full(the_grid):
+                    create_grid(the_grid)
+                    print('The game is a tie!')
+                    break
+                else:
+                    turn = 'player'
