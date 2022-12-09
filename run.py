@@ -58,6 +58,27 @@ def make_a_move(grid, letter, move):
     grid[move] = letter
 
 
+def check_free_space(grid, move):
+    """
+    This function returns true if the passed move is free on the current grid.
+    """
+    return grid[move] == ' '
+
+
+def player_move(grid):
+    """
+    This function lets the player type in their move.
+
+    The loop ensures the execution doesn't occur until the player has typed 
+    an integer between 1-9 that represents a free space on the current grid.
+    """
+    move = ' '
+    while move not in '1 2 3 4 5 6 7 8 9'.split() or not check_free_space(grid, int(move)):
+        print('What is your next move? (1-9)')
+        move = input()
+    return int(move)
+
+
 def computer_move(grid, computer_letter):
     """
     This function contains the computer's algorithm, defined by five seperate 
