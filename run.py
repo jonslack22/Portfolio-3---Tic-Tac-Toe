@@ -39,6 +39,14 @@ def choose_letter():
         return ['O', 'X']
 
 
+def make_a_move(grid, letter, move):
+    """
+    This function assigns a letter, X or O, to one of the positions on
+    the grid (defined as an integer) for the player or computer move.
+    """
+    grid[move] = letter
+
+
 def computer_move(grid, computer_letter):
     """
     This function contains the computer's algorithm, defined by five seperate 
@@ -88,3 +96,5 @@ while True:
         if turn == 'player':
             # The player’s turn.
             create_grid(the_grid)
+            move = player_move(the_grid)
+            make_a_move(the_grid, player_letter, move)
