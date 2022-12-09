@@ -39,6 +39,17 @@ def choose_letter():
         return ['O', 'X']
 
 
+def turn_order():
+    """
+    A function that randomly chooses who goes first. Effectively, this is a 
+    coin flip.
+    """
+    if random.randint(0, 1) == 0:
+        return 'computer'
+    else:
+        return 'player'
+
+
 def make_a_move(grid, letter, move):
     """
     This function assigns a letter, X or O, to one of the positions on
