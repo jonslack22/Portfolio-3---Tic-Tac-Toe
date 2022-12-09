@@ -39,6 +39,21 @@ def choose_letter():
         return ['O', 'X']
 
 
+def computer_move(grid, computer_letter):
+    """
+    This function contains the computer's algorithm, defined by five seperate 
+    checks of the current game state. Each check completes in listed order.
+
+    The variables 'computer_letter' and 'player_letter' allows the same code 
+    to be used whatever letter the computer is assigned.
+    """
+    if computer_letter == 'X':
+        player_letter = 'O'
+    else:
+        player_letter = 'X'
+
+
+
 print(
     """
     \u001b[32m
@@ -64,6 +79,11 @@ while True:
     This 'while' loop resets the grid on starting the game and executes
     the game's functions so long as the loop returns True.
     """
+
+    # Reset the grid
+    the_grid = [' '] * 10
+    player_letter, computer_letter = choose_letter()
+
     while game_active:
         if turn == 'player':
             # The player’s turn.
