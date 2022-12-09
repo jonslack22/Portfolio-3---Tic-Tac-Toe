@@ -58,6 +58,26 @@ def make_a_move(grid, letter, move):
     grid[move] = letter
 
 
+def win_condition(gr, le):
+    """
+    Given a grid and the player’s letter, this function returns True if the 
+    player has won. Grid and letter are abbreviated to 'gr' and 'le', 
+    respectively.
+    
+    There are eight winning combinations in tic-tac-toe; all are listed below. 
+    Each is checked for inside a nested 'while' loop further on.
+    """
+    return ((gr[7] == le and gr[8] == le and gr[9] == le) or  # across top
+            (gr[4] == le and gr[5] == le and gr[6] == le) or  # across middle
+            (gr[1] == le and gr[2] == le and gr[3] == le) or  # across bottom
+            (gr[7] == le and gr[4] == le and gr[1] == le) or  # down left side
+            (gr[8] == le and gr[5] == le and gr[2] == le) or  # down middle
+            (gr[9] == le and gr[6] == le and gr[3] == le) or  # down right side
+            (gr[7] == le and gr[5] == le and gr[3] == le) or  # diagonal 1
+            (gr[9] == le and gr[5] == le and gr[1] == le))  # diagonal 2
+
+
+
 def check_free_space(grid, move):
     """
     This function returns true if the passed move is free on the current grid.
@@ -91,7 +111,6 @@ def computer_move(grid, computer_letter):
         player_letter = 'O'
     else:
         player_letter = 'X'
-
 
 
 print(
@@ -130,3 +149,7 @@ while True:
             create_grid(the_grid)
             move = player_move(the_grid)
             make_a_move(the_grid, player_letter, move)
+            if win_condition(the_grid, player_letter):
+                create_grid(the_grid)
+                print('Congratulations! You have won the game!')
+                game_active = False
