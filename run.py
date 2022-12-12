@@ -243,13 +243,12 @@ while True:
                 create_grid(the_grid)
                 print('Congratulations! You have won the game!')
                 game_active = False
+            elif is_grid_full(the_grid):
+                create_grid(the_grid)
+                print('The game is a tie!')
+                break
             else:
-                if is_grid_full(the_grid):
-                    create_grid(the_grid)
-                    print('The game is a tie!')
-                    break
-                else:
-                    turn = 'computer'
+                turn = 'computer'
         else:
             # The computer’s turn.
             move = computer_move(the_grid, computer_letter)
@@ -259,12 +258,11 @@ while True:
                 create_grid(the_grid)
                 print('The computer has beaten you! You lose.')
                 game_active = False
+            elif is_grid_full(the_grid):
+                create_grid(the_grid)
+                print('The game is a tie!')
+                break
             else:
-                if is_grid_full(the_grid):
-                    create_grid(the_grid)
-                    print('The game is a tie!')
-                    break
-                else:
-                    turn = 'player'
+                turn = 'player'
     if not replay():
         break
