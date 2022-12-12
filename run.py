@@ -24,18 +24,18 @@ def choose_letter():
     This function lets the player choose which letter they want to be,
     returning a list with the player’s letter as the first item, and the
     computer's letter as the second.
-    
-    The first element in the list is the player’s letter, the second is the 
+
+    The first element in the list is the player’s letter, the second is the
     computer's letter.
     """
     letter = ''
-    while not (letter == 'X' or letter == 'O'):
+    while letter in ('X', 'O'):
         print('Do you want to be X or O?')
         letter = input().upper()
 
     if letter == 'X':
         return ['X', 'O']
-    
+
     return ['O', 'X']
 
 
@@ -75,7 +75,7 @@ def win_condition(gr, le):
     Given a grid and the player’s letter, this function returns True if the
     player has won. Grid and letter are abbreviated to 'gr' and 'le',
     respectively.
-    
+
     There are eight winning combinations in tic-tac-toe; all are listed below.
     Each is checked for inside a nested 'while' loop further on.
     """
@@ -112,7 +112,7 @@ def player_move(grid):
     """
     This function lets the player type in their move.
 
-    The loop ensures the execution doesn't occur until the player has typed 
+    The loop ensures the execution doesn't occur until the player has typed
     an integer between 1-9 that represents a free space on the current grid.
     """
     move = ' '
@@ -135,7 +135,7 @@ def choose_random_possible_move(grid, move_list):
 
     if len(possible_moves) != 0:
         return random.choice(possible_moves)
-    
+
     return None
 
 
@@ -175,9 +175,9 @@ def computer_move(grid, computer_letter):
     # Checks for an available space in the four corners. If none are free,
     # move to the next step.
 
-    MOVE = choose_random_possible_move(grid, [1, 3, 7, 9])
-    if MOVE is not None:
-        return MOVE
+    move = choose_random_possible_move(grid, [1, 3, 7, 9])
+    if move is not None:
+        return move
 
     # Checks if the center space is available. If not, move to the next step.
 
@@ -186,13 +186,13 @@ def computer_move(grid, computer_letter):
 
     # Take a space on the sides.
 
-    return choose_random_possible_move(grid, [2, 4, 6, 8])  
+    return choose_random_possible_move(grid, [2, 4, 6, 8])
 
 
 def is_grid_full(grid):
     """
     If every space on the grid is filled, this returns True.
-    """	
+    """
     for i in range(1, 10):
         if check_free_space(grid, i):
             return False
