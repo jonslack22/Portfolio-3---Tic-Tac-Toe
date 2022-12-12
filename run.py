@@ -1,6 +1,10 @@
 import random
 
 
+C = "{:^80}".format
+# BR = "\n"
+
+
 def create_grid(grid):
     """
     This function prints out the grid that it was passed. A
@@ -29,8 +33,8 @@ def choose_letter():
     computer's letter.
     """
     letter = ''
-    while letter in ('X', 'O'):
-        print('Do you want to be X or O?')
+    while not (letter == 'X' or letter == 'O'):
+        print(C('Do you want to be X or O?'))
         letter = input().upper()
 
     if letter == 'X':
@@ -58,7 +62,7 @@ def replay():
     Any input that starts with the letter 'y', capitalised or not, will return
     True.
     """
-    print('Do you want to play again? (yes or no)')
+    print(C('Do you want to play again? (yes or no)'))
     return input().lower().startswith('y')
 
 
@@ -117,7 +121,7 @@ def player_move(grid):
     """
     move = ' '
     while move not in '1 2 3 4 5 6 7 8 9'.split() or not check_free_space(grid, int(move)):
-        print('What is your next move? (1-9)')
+        print(C('What is your next move? (1-9)'))
         move = input()
     return int(move)
 
@@ -202,22 +206,23 @@ def is_grid_full(grid):
 print(
     """
     \u001b[32m
-   _____ _        _____            _____          
-  |_   _(_)      |_   _|          |_   _|         
-    | |  _  ___    | | __ _  ___    | | ___   ___ 
-    | | | |/ __|   | |/ _` |/ __|   | |/ _ \ / _ |
-    | | | | (__    | | (_| | (__    | | (_) |  __/
-    \_/ |_|\___|   \_/\__,_|\___|   \_/\___/ \___|
+               _____ _        _____            _____          
+              |_   _(_)      |_   _|          |_   _|
+                | |  _  ___    | | __ _  ___    | | ___   ___ 
+                | | | |/ __|   | |/ _` |/ __|   | |/ _ \ / _ |
+                | | | | (__    | | (_| | (__    | | (_) |  __/
+                \_/ |_|\___|   \_/\__,_|\___|   \_/\___/ \___|
 \u001b[0m
 """)
 
 
-print("Welcome to Jonathan Slack's Tic Tac Toe!\n")
-print("RULES: Using a format of a human versus computer, take turns "
-      "marking a space in a 3*3 grid. The player who succeeds in placing "
-      "three marks, represented by X and 0, in a horizontal, "
-      "vertical, or diagonal row, wins.\n")
-input("Press enter to continue.\n")
+print(C("Welcome to Jonathan Slack's Tic Tac Toe!\n"))
+print(C("RULES: Using a format of a human versus computer, take "
+        "turns marking spaces in a 3*3 grid."))
+print(C("The player who succeeds in placing three marks, represented by X and "
+        "0, in a horizontal,"))
+print(C("vertical, or diagonal row, wins.\n"))
+input(C("Press Enter to continue.\n"))
 
 while True:
     # This 'while' loop resets the grid on starting the game and executes
@@ -227,7 +232,7 @@ while True:
     the_grid = [' '] * 10
     player_letter, computer_letter = choose_letter()
     TURN = turn_order()
-    print('The ' + TURN + ' will go first.')
+    print(C('The ' + TURN + ' will go first.'))
     GAME_ACTIVE = True
 
     while GAME_ACTIVE:
@@ -238,11 +243,11 @@ while True:
             make_a_move(the_grid, player_letter, MOVE)
             if win_condition(the_grid, player_letter):
                 create_grid(the_grid)
-                print('Congratulations! You have won the game!')
+                print(C('Congratulations! You have won the game!'))
                 GAME_ACTIVE = False
             elif is_grid_full(the_grid):
                 create_grid(the_grid)
-                print('The game is a tie!')
+                print(C('The game is a tie!'))
                 break
             else:
                 TURN = 'computer'
@@ -253,11 +258,11 @@ while True:
 
             if win_condition(the_grid, computer_letter):
                 create_grid(the_grid)
-                print('The computer has beaten you! You lose.')
+                print(C('The computer has beaten you! You lose.'))
                 GAME_ACTIVE = False
             elif is_grid_full(the_grid):
                 create_grid(the_grid)
-                print('The game is a tie!')
+                print(C('The game is a tie!'))
                 break
             else:
                 TURN = 'player'
