@@ -21,8 +21,8 @@ def create_grid(grid):
 
 def choose_letter():
     """
-    This function lets the player choose which letter they want to be, 
-    returning a list with the player’s letter as the first item, and the 
+    This function lets the player choose which letter they want to be,
+    returning a list with the player’s letter as the first item, and the
     computer's letter as the second.
     
     The first element in the list is the player’s letter, the second is the 
@@ -35,32 +35,31 @@ def choose_letter():
 
     if letter == 'X':
         return ['X', 'O']
-    else:
-        return ['O', 'X']
+    
+    return ['O', 'X']
 
 
 def turn_order():
     """
-    A function that randomly chooses who goes first. Effectively, this is a 
+    A function that randomly chooses who goes first. Effectively, this is a
     coin flip.
     """
     if random.randint(0, 1) == 0:
         return 'computer'
-    else:
-        return 'player'
+
+    return 'player'
 
 
 def replay():
     """
-    This function returns True if the player wants to play the game again, 
+    This function returns True if the player wants to play the game again,
     otherwise it returns False.
-    
-    Any input that starts with the letter 'y', capitalised or not, will return 
+
+    Any input that starts with the letter 'y', capitalised or not, will return
     True.
     """
     print('Do you want to play again? (yes or no)')
     return input().lower().startswith('y')
-
 
 
 def make_a_move(grid, letter, move):
@@ -73,11 +72,11 @@ def make_a_move(grid, letter, move):
 
 def win_condition(gr, le):
     """
-    Given a grid and the player’s letter, this function returns True if the 
-    player has won. Grid and letter are abbreviated to 'gr' and 'le', 
+    Given a grid and the player’s letter, this function returns True if the
+    player has won. Grid and letter are abbreviated to 'gr' and 'le',
     respectively.
     
-    There are eight winning combinations in tic-tac-toe; all are listed below. 
+    There are eight winning combinations in tic-tac-toe; all are listed below.
     Each is checked for inside a nested 'while' loop further on.
     """
     return ((gr[7] == le and gr[8] == le and gr[9] == le) or  # across top
@@ -136,8 +135,8 @@ def choose_random_possible_move(grid, move_list):
 
     if len(possible_moves) != 0:
         return random.choice(possible_moves)
-    else:
-        return None
+    
+    return None
 
 
 def computer_move(grid, computer_letter):
@@ -163,8 +162,8 @@ def computer_move(grid, computer_letter):
         if win_condition(copy, computer_letter):
             return i
 
-    # If a winning move exists for the player, the computer will stop it. If not, move
-    # to the next step.
+    # If a winning move exists for the player, the computer will stop it. If
+    # not, move to the next step.
 
     for i in range(1, 10):
         copy = get_grid_copy(grid)
@@ -176,9 +175,9 @@ def computer_move(grid, computer_letter):
     # Checks for an available space in the four corners. If none are free,
     # move to the next step.
 
-    move = choose_random_possible_move(grid, [1, 3, 7, 9])
-    if move != None:
-        return move
+    MOVE = choose_random_possible_move(grid, [1, 3, 7, 9])
+    if MOVE is not None:
+        return MOVE
 
     # Checks if the center space is available. If not, move to the next step.
 
@@ -221,48 +220,46 @@ print("RULES: Using a format of a human versus computer, take turns "
 input("Press enter to continue.\n")
 
 while True:
-    """
-    This 'while' loop resets the grid on starting the game and executes
-    the game's functions so long as the loop returns True.
-    """
+    # This 'while' loop resets the grid on starting the game and executes
+    # the game's functions so long as the loop returns True.
 
     # Reset the grid
     the_grid = [' '] * 10
     player_letter, computer_letter = choose_letter()
-    turn = turn_order()
-    print('The ' + turn + ' will go first.')
-    game_active = True
+    TURN = turn_order()
+    print('The ' + TURN + ' will go first.')
+    GAME_ACTIVE = True
 
-    while game_active:
-        if turn == 'player':
+    while GAME_ACTIVE:
+        if TURN == 'player':
             # The player’s turn.
             create_grid(the_grid)
-            move = player_move(the_grid)
-            make_a_move(the_grid, player_letter, move)
+            MOVE = player_move(the_grid)
+            make_a_move(the_grid, player_letter, MOVE)
             if win_condition(the_grid, player_letter):
                 create_grid(the_grid)
                 print('Congratulations! You have won the game!')
-                game_active = False
+                GAME_ACTIVE = False
             elif is_grid_full(the_grid):
                 create_grid(the_grid)
                 print('The game is a tie!')
                 break
             else:
-                turn = 'computer'
+                TURN = 'computer'
         else:
             # The computer’s turn.
             move = computer_move(the_grid, computer_letter)
             make_a_move(the_grid, computer_letter, move)
-            
+
             if win_condition(the_grid, computer_letter):
                 create_grid(the_grid)
                 print('The computer has beaten you! You lose.')
-                game_active = False
+                GAME_ACTIVE = False
             elif is_grid_full(the_grid):
                 create_grid(the_grid)
                 print('The game is a tie!')
                 break
             else:
-                turn = 'player'
+                TURN = 'player'
     if not replay():
         break
