@@ -110,18 +110,51 @@ def player_move(grid):
     return int(move)
 
 
+def choose_random_possible_move(grid, move_list):
+    """
+    This function is for the benefit of the computer. It returns a valid move 
+    from the passed list on the passed grid. It returns None if there is no 
+    valid move.
+    """
+    possible_moves = []
+    for i in move_list:
+        if check_free_space(grid, i):
+            possible_moves.append(i)
+
+    if len(possible_moves) != 0:
+        return random.choice(possible_moves)
+    else:
+        return None
+
+
 def computer_move(grid, computer_letter):
     """
-    This function contains the computer's algorithm, defined by five seperate 
+    This function contains the computer's algorithm, defined by five seperate
     checks of the current game state. Each check completes in listed order.
 
-    The variables 'computer_letter' and 'player_letter' allows the same code 
+    The variables 'computer_letter' and 'player_letter' allows the same code
     to be used whatever letter the computer is assigned.
     """
     if computer_letter == 'X':
         player_letter = 'O'
     else:
         player_letter = 'X'
+
+    # Checks for an available space in the four corners. If none are free,
+    # move to the next step.
+
+    move = choose_random_possible_move(grid, [1, 3, 7, 9])
+    if move != None:
+        return move
+
+    # Checks if the center space is available. If not, move to the next step.
+
+    if check_free_space(grid, 5):
+        return 5
+
+    # Take a space on the sides.
+
+    return choose_random_possible_move(grid, [2, 4, 6, 8])  
 
 
 def is_grid_full(grid):
@@ -163,6 +196,9 @@ while True:
     # Reset the grid
     the_grid = [' '] * 10
     player_letter, computer_letter = choose_letter()
+    turn = turn_order()
+    print('The ' + turn + ' will go first.')
+    game_active = True
 
     while game_active:
         if turn == 'player':
@@ -185,6 +221,7 @@ while True:
             # The computer’s turn.
             move = computer_move(the_grid, computer_letter)
             make_a_move(the_grid, computer_letter, move)
+            
             if win_condition(the_grid, computer_letter):
                 create_grid(the_grid)
                 print('The computer has beaten you! You lose.')
