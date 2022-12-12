@@ -50,6 +50,19 @@ def turn_order():
         return 'player'
 
 
+def replay():
+    """
+    This function returns True if the player wants to play the game again, 
+    otherwise it returns False.
+    
+    Any input that starts with the letter 'y', capitalised or not, will return 
+    True.
+    """
+    print('Do you want to play again? (yes or no)')
+    return input().lower().startswith('y')
+
+
+
 def make_a_move(grid, letter, move):
     """
     This function assigns a letter, X or O, to one of the positions on
@@ -233,3 +246,5 @@ while True:
                     break
                 else:
                     turn = 'player'
+    if not replay():
+        break
