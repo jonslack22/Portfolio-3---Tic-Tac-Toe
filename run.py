@@ -153,6 +153,26 @@ def computer_move(grid, computer_letter):
     else:
         player_letter = 'X'
 
+    # Checks if a winning move exists. If not, move to the next step.
+
+    for i in range(1, 10):
+        copy = get_grid_copy(grid)
+
+        if check_free_space(copy, i):
+            make_a_move(copy, computer_letter, i)
+        if win_condition(copy, computer_letter):
+            return i
+
+    # If a winning move exists for the player, the computer will stop it. If not, move
+    # to the next step.
+
+    for i in range(1, 10):
+        copy = get_grid_copy(grid)
+        if check_free_space(copy, i):
+            make_a_move(copy, player_letter, i)
+        if win_condition(copy, player_letter):
+            return i
+    
     # Checks for an available space in the four corners. If none are free,
     # move to the next step.
 
