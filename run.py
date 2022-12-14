@@ -2,7 +2,9 @@ import random
 
 
 C = "{:^80}".format
-# BR = "\n"
+C2 = "{:^82}".format
+C3 = "{:^83}".format
+BR = "\n"
 
 
 def create_grid(grid):
@@ -10,17 +12,17 @@ def create_grid(grid):
     This function prints out the grid that it was passed. A
     list of 10 strings represents the grid. Index 0 is ignored.
     """
-    print('   |   |')
-    print(' ' + grid[7] + ' | ' + grid[8] + ' | ' + grid[9])
-    print('   |   |')
-    print('-----------')
-    print('   |   |')
-    print(' ' + grid[4] + ' | ' + grid[5] + ' | ' + grid[6])
-    print('   |   |')
-    print('-----------')
-    print('   |   |')
-    print(' ' + grid[1] + ' | ' + grid[2] + ' | ' + grid[3])
-    print('   |   |')
+    print(C('   |   |'))
+    print(C2(' ' + grid[7] + ' | ' + grid[8] + ' | ' + grid[9]))
+    print(C('   |   |'))
+    print(C3('-----------'))
+    print(C('   |   |'))
+    print(C2(' ' + grid[4] + ' | ' + grid[5] + ' | ' + grid[6]))
+    print(C('   |   |'))
+    print(C3('-----------'))
+    print(C('   |   |'))
+    print(C2(' ' + grid[1] + ' | ' + grid[2] + ' | ' + grid[3]))
+    print(C('   |   |'))
 
 
 def choose_letter():
@@ -120,7 +122,8 @@ def player_move(grid):
     """
     move = ' '
     while move not in '1 2 3 4 5 6 7 8 9'.split() or not check_free_space(grid, int(move)):
-        print(C('What is your next move? (1-9)'))
+        print(BR)
+        print(C('Please enter your next move (1-9)'))
         move = input()
     return int(move)
 
@@ -231,7 +234,7 @@ while True:
     the_grid = [' '] * 10
     player_letter, computer_letter = choose_letter()
     TURN = turn_order()
-    print(C('The ' + TURN + ' will go first.'))
+    print(C('The ' + TURN + ' will go first.\n'))
     GAME_ACTIVE = True
 
     while GAME_ACTIVE:
