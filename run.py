@@ -32,10 +32,9 @@ def choose_letter():
     The first element in the list is the player’s letter, the second is the
     computer's letter.
     """
-    letter = ''
-    while not (letter == 'X' or letter == 'O'):
-        print(C('Do you want to be X or O?'))
-        letter = input().upper()
+    letter = set(("X", "O"))
+    print(C('Do you want to be X or O?'))
+    letter = input().upper()
 
     if letter == 'X':
         return ['X', 'O']
