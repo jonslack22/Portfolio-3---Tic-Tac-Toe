@@ -38,12 +38,12 @@ def intro_message():
     print(C("RULES: Take turns marking spaces in a 3*3 grid against a "
             "computer opponent.\n"))
     print(C("The 3*3 grid is laid out like a calculator:\n"))
-    print(C("The top row represents numbers    7, 8 and 9;\n"))
+    print(C("The top row represents numbers    7, 8 and 9;"))
     print(C("The middle row represents numbers 4, 5 and 6;"))
-    print(C("The bottom row represents numbers 1, 2 and 3."))
+    print(C("The bottom row represents numbers 1, 2 and 3.\n"))
     print(C("The player who succeeds in placing three marks, represented by X "
-            "and 0, in a horizontal,"))
-    print(C("vertical, or diagonal row, wins.\n"))
+            "and 0, in a "))
+    print(C("horizontal, vertical, or diagonal row, wins.\n"))
     input(C("Press Enter to continue.\n"))
     clear_console()
 
@@ -104,6 +104,7 @@ def replay():
     Any input that starts with the letter 'y', capitalised or not, will return
     True.
     """
+    print(BR)
     print(C('Do you want to play again? (yes or no)'))
     return input().lower().startswith('y')
 
@@ -269,11 +270,13 @@ while True:
             if win_condition(the_grid, player_letter):
                 clear_console()
                 create_grid(the_grid)
+                print(BR)
                 print(C('Congratulations! You have won the game!'))
                 GAME_ACTIVE = False
             elif is_grid_full(the_grid):
                 clear_console()
                 create_grid(the_grid)
+                print(BR)
                 print(C('The game is a tie!'))
                 break
             else:
@@ -287,11 +290,13 @@ while True:
             if win_condition(the_grid, computer_letter):
                 clear_console()
                 create_grid(the_grid)
+                print(BR)
                 print(C('The computer has beaten you! You lose.'))
                 GAME_ACTIVE = False
             elif is_grid_full(the_grid):
                 clear_console()
                 create_grid(the_grid)
+                print(BR)
                 print(C('The game is a tie!'))
                 break
             else:
