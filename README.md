@@ -1,31 +1,39 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+## Technologies Used
+### Main Languages Used
+- [Python](https://en.wikipedia.org/wiki/Python_(programming_language) "Link to Python Wiki")
 
-Welcome jonslack22,
+### Frameworks, Libraries & Programs Used
+- [GitPod](https://gitpod.io/ "Link to GitPod homepage")
+    - GitPod was used for writing code, committing, and then pushing to GitHub.
+- [GitHub](https://github.com/ "Link to GitHub")
+    - GitHub was used to store the project after pushing.
+- [Lucid](https://lucid.app/ "Link to Lucid homepage")
+    - Lucid was used to create a flowchart of information in two instances; namely, for the nature of game progression, and the algorithm of the computer.
 
-This is the Code Institute student template for deploying your third portfolio project, the Python command-line project. The last update to this file was: **August 17, 2021**
+## Issues and Bugs
 
-## Reminders
+- Solved bugs:
 
-* Your code must be placed in the `run.py` file
-* Your dependencies must be placed in the `requirements.txt` file
-* Do not edit any of the other files or your code may not deploy properly
+- Remaining bugs:
+    - A curious bug regarding the ASCii art 'Tic Tac Toe' previously caused a small number of the '\, |, / and -' characters to be spliced and displayed on the right-hand of the Gitpod terminal. The issue was traced to the presence of a '\' character in the 'e' letter of the ASCii art being recognised not as a string character, despite other '\' characters in the art being interpreted as desired. I replaced the rogue '\' with a '|' and this resolved the issue, but did not address the original problem of the character's misinterpretation. I consider the current implementation a temporary fix.
 
-## Creating the Heroku app
+    ![ASCii display bug](assets/readme_files/ascii_bug.PNG)
 
-When you create the app, you will need to add two buildpacks from the _Settings_ tab. The ordering is as follows:
+## Automated Testing
 
-1. `heroku/python`
-2. `heroku/nodejs`
+### Code Validation
 
-You must then create a _Config Var_ called `PORT`. Set this to `8000`
+The [PEP8 Online Checker](https://extendsclass.com/python-tester.html/) was used to validate the project's code.
 
-If you have credentials, such as in the Love Sandwiches project, you must create another _Config Var_ called `CREDS` and paste the JSON into the value field.
+**Outcome**
 
-Connect your GitHub repository and deploy as normal.
+<details>
+<summary>run.py Validation results</summary>
 
-## Constraints
+![run.py Validation results](assets/readme_files/pep8_validation.PNG.png)
 
-The deployment terminal is set to 80 columns by 24 rows. That means that each line of text needs to be 80 characters or less otherwise it will be wrapped onto a second line.
+</details>
 
------
-Happy coding!
+## User Testing
+
+The project was tested by my friend, a software tester and developer by trade, who provided useful suggestions on improving the UI and critiquing the project as a whole.
