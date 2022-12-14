@@ -1,7 +1,6 @@
 # Project libraries
 import random
 import os
-import sys
 
 
 C = "{:^80}".format
@@ -19,18 +18,10 @@ def clear_console():
     os.system("cls" if os.name == "nt" else "clear")
 
 
-def restart():
-    """
-    Restarts game to clear the board
-    """
-    # This line is credited to
-    # https://stackoverflow.com/questions/62248430/restart-function-in-python
-    os.execl(sys.executable, sys.executable, *sys.argv)
-
-
 def intro_message():
+    """ This function displays a welcome message in every new game instance
+    """
     clear_console()
-    # This function displays a welcome message in every new game instance
     print(
         """\
     \u001b[32m
@@ -44,10 +35,14 @@ def intro_message():
 """)
 
     print(C("Welcome to Jonathan Slack's Tic Tac Toe!\n"))
-    print(C("RULES: Take turns marking spaces in a 3*3 grid against a computer "
-            "opponent.\n"))
+    print(C("RULES: Take turns marking spaces in a 3*3 grid against a "
+            "computer opponent.\n"))
+    print(C("The 3*3 grid is laid out like a calculator:\n"))
+    print(C("The top row represents numbers    7, 8 and 9;\n"))
+    print(C("The middle row represents numbers 4, 5 and 6;"))
+    print(C("The bottom row represents numbers 1, 2 and 3."))
     print(C("The player who succeeds in placing three marks, represented by X "
-            "and 0, in a horizontal, "))
+            "and 0, in a horizontal,"))
     print(C("vertical, or diagonal row, wins.\n"))
     input(C("Press Enter to continue.\n"))
     clear_console()
@@ -270,7 +265,7 @@ while True:
             create_grid(the_grid)
             MOVE = player_move(the_grid)
             make_a_move(the_grid, player_letter, MOVE)
-            
+
             if win_condition(the_grid, player_letter):
                 clear_console()
                 create_grid(the_grid)
