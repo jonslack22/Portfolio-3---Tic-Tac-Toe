@@ -1,10 +1,56 @@
+# Project libraries
 import random
+import os
+import sys
 
 
 C = "{:^80}".format
 C2 = "{:^82}".format
 C3 = "{:^83}".format
 BR = "\n"
+
+
+def clear_console():
+    """
+    Clears the console.
+    """
+    # This line is credited to
+    # https://stackoverflow.com/questions/2084508/clear-terminal-in-python
+    os.system("cls" if os.name == "nt" else "clear")
+
+
+def restart():
+    """
+    Restarts game to clear the board
+    """
+    # This line is credited to
+    # https://stackoverflow.com/questions/62248430/restart-function-in-python
+    os.execl(sys.executable, sys.executable, *sys.argv)
+
+
+def intro_message():
+    clear_console()
+    # This function displays a welcome message in every new game instance
+    print(
+        """\
+    \u001b[32m
+               _____ _        _____            _____          
+              |_   _(_)      |_   _|          |_   _|
+                | |  _  ___    | | __ _  ___    | | ___   ___ 
+                | | | |/ __|   | |/ _` |/ __|   | |/ _ \ / _ |
+                | | | | (__    | | (_| | (__    | | (_) |  __/
+                \_/ |_|\___|   \_/\__,_|\___|   \_/\___/ \___|
+\u001b[0m
+""")
+
+    print(C("Welcome to Jonathan Slack's Tic Tac Toe!\n"))
+    print(C("RULES: Take turns marking spaces in a 3*3 grid against a computer "
+            "opponent.\n"))
+    print(C("The player who succeeds in placing three marks, represented by X "
+            "and 0, in a horizontal, "))
+    print(C("vertical, or diagonal row, wins.\n"))
+    input(C("Press Enter to continue.\n"))
+    clear_console()
 
 
 def create_grid(grid):
@@ -205,49 +251,33 @@ def is_grid_full(grid):
     return True
 
 
-print(
-    """
-    \u001b[32m
-               _____ _        _____            _____          
-              |_   _(_)      |_   _|          |_   _|
-                | |  _  ___    | | __ _  ___    | | ___   ___ 
-                | | | |/ __|   | |/ _` |/ __|   | |/ _ \ / _ |
-                | | | | (__    | | (_| | (__    | | (_) |  __/
-                \_/ |_|\___|   \_/\__,_|\___|   \_/\___/ \___|
-\u001b[0m
-""")
-
-
-print(C("Welcome to Jonathan Slack's Tic Tac Toe!\n"))
-print(C("RULES: Using a format of a human versus computer, take "
-        "turns marking spaces in a 3*3 grid."))
-print(C("The player who succeeds in placing three marks, represented by X and "
-        "0, in a horizontal,"))
-print(C("vertical, or diagonal row, wins.\n"))
-input(C("Press Enter to continue.\n"))
-
 while True:
     # This 'while' loop resets the grid on starting the game and executes
     # the game's functions so long as the loop returns True.
 
     # Reset the grid
+    intro_message()
     the_grid = [' '] * 10
     player_letter, computer_letter = choose_letter()
     TURN = turn_order()
-    print(C('The ' + TURN + ' will go first.\n'))
+    input(C('The ' + TURN + ' will go first. Press Enter to continue.\n'))
     GAME_ACTIVE = True
 
     while GAME_ACTIVE:
         if TURN == 'player':
             # The player’s turn.
+            clear_console()
             create_grid(the_grid)
             MOVE = player_move(the_grid)
             make_a_move(the_grid, player_letter, MOVE)
+            
             if win_condition(the_grid, player_letter):
+                clear_console()
                 create_grid(the_grid)
                 print(C('Congratulations! You have won the game!'))
                 GAME_ACTIVE = False
             elif is_grid_full(the_grid):
+                clear_console()
                 create_grid(the_grid)
                 print(C('The game is a tie!'))
                 break
@@ -255,14 +285,17 @@ while True:
                 TURN = 'computer'
         else:
             # The computer’s turn.
+            clear_console()
             move = computer_move(the_grid, computer_letter)
             make_a_move(the_grid, computer_letter, move)
 
             if win_condition(the_grid, computer_letter):
+                clear_console()
                 create_grid(the_grid)
                 print(C('The computer has beaten you! You lose.'))
                 GAME_ACTIVE = False
             elif is_grid_full(the_grid):
+                clear_console()
                 create_grid(the_grid)
                 print(C('The game is a tie!'))
                 break
