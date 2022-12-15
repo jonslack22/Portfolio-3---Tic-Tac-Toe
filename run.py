@@ -52,7 +52,6 @@ def create_grid(grid):
     """
     print(BR)
     print(BR)
-    print(BR)
     print(C('   |   |'))
     print(C2(' ' + grid[7] + ' | ' + grid[8] + ' | ' + grid[9]))
     print(C('   |   |'))
@@ -305,4 +304,5 @@ while True:
             else:
                 TURN = 'player'
     if not replay():
+        clear_console()
         break
