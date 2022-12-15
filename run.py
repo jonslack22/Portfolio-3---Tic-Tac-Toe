@@ -10,11 +10,8 @@ BR = "\n"
 
 
 def clear_console():
+    """ Clears the console of previously generated information.
     """
-    Clears the console.
-    """
-    # This line is credited to
-    # https://stackoverflow.com/questions/2084508/clear-terminal-in-python
     os.system("cls" if os.name == "nt" else "clear")
 
 
@@ -53,6 +50,9 @@ def create_grid(grid):
     This function prints out the grid that it was passed. A
     list of 10 strings represents the grid. Index 0 is ignored.
     """
+    print(BR)
+    print(BR)
+    print(BR)
     print(C('   |   |'))
     print(C2(' ' + grid[7] + ' | ' + grid[8] + ' | ' + grid[9]))
     print(C('   |   |'))
@@ -76,6 +76,9 @@ def choose_letter():
     computer's letter.
     """
     letter = set(("X", "O"))
+    print(BR)
+    print(BR)
+    print(BR)
     print(C('Do you want to be X or O?'))
     letter = input().upper()
 
