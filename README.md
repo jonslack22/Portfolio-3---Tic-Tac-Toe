@@ -2,7 +2,79 @@
 
 This project represents Portfolio Project 3 of Code Institute's Full Stack Software Development diploma. The primary programming language for project 3 is Python. I decided to create a Python version of Tic-Tac-Toe, or "Noughts and Crosses", as it is sometimes referred to.
 
-Tic-Tac-Toe is a basic 2-player strategy game. It is played on a 3 by 3 grid, drawn up on paper or using a board. Players take turns in marking grid spaces using a 'X' or 'O' letter. The first player to attain three of their letter in a row, whether vertically, horizontally or diagonally, wins.
+Tic-Tac-Toe is a basic 2-player game based around strategy, obersvation and tactics. It is played on a 3 by 3 grid, drawn up on paper or using a board. Players take turns in marking grid spaces using a 'X' or 'O' letter. The first player to attain three of their letter in a row, whether vertically, horizontally or diagonally, wins. The game is said to have its origins from ancient Egypt, with game boards being found on roofs dated back to 1300BC.
+
+British Computer Scientist Sandy Douglas developed OXO (or Noughts and Crosses) as one of the first ever video games in 1952 on the EDSAC computer platform. It was known to play perfect games of tic-tac-toe against human opponents.
+
+## UX
+### Ideal User Demographic
+The ideal user for this game is:
+* Players new to tic-tac-toe
+* Players returning to tic-tac-toe who wish to play against a computer opponent
+
+#### New User Goals
+1. As a new player, I want to see clear instructions for the game. 
+2. As a new player, I want to see clear visual representation of the moves both I and the computer have made.
+3. As a new player, I want the ability to replay the game.
+
+#### Returning User Goals
+1. As a returning player, I want the ability to replay the game.
+2. As a returning player, I want to play against a challenging computer opponent. 
+
+### Development-Planes
+I wanted to create a command-line application that allows the user to play Tic-Tac-Toe against a challenging computer opponent. For users completely new to the game, it is a tough ask for them to successfully win. However, the computer does not make perfect moves (unlike the OXO game noted above), so victory is possible. By eventually achieving victory in this way, a new user will have built a knowledge base of a sequence of moves that maximise their odds of winning. 
+
+#### Strategy
+When building a website or application, a developer must consider user needs as well as product objectives. The game focuses on the following target audience, divided into three main categories:
+
+- **Roles:**
+    - New users
+    - Current users
+
+- **Demographic:**
+    - All ages and genders
+    - All playing level competencies
+
+- **Psychographic:**
+    - Lifestyles:
+        - Interest in games
+        - Interest in puzzles
+    - Personality/Attitudes:
+        - Forward-Thinking
+        - Creative problem solving
+    
+The application needs to enable the **user** to:
+- play the game "Tic-Tac-Toe" using numbers and alphabetical characters.
+- generate a random board on each play-through placing ships in different locations.
+    
+
+#### Scope
+Requirements for the game's scope are based on the goals established on the strategy plane. Establisihing identified required features, I have broken these down into the following categories:
+- Content Requirements:
+    - The player will be looking for:
+        - Clear and concise instructions;
+        - A consistent gameplay experience. 
+- Functionality Requirements:
+    - The player must be able to:
+        - Choose their letter of X or O;
+        - Place grid markers using the numbers 1-9;
+        - Replay the game;
+        - End the program at the end of the game.
+
+#### Structure
+The project will be deployed to a Heroku terminal. Only the inclusion of ASCII art for the game's logo represents any form of visual styling. 
+
+#### Skeleton
+A flowchart was created to show the logic the game's functions would follow.
+
+<details>
+<summary>Flowchart</summary>
+    
+![Flowchart](assets/readme_files/Tic-Tac-Toe%20--%20Game%20Progressions.png)
+
+</details>
+
+[Back to top ⇧](#)
 
 ## Features
 
@@ -51,7 +123,6 @@ Tic-Tac-Toe is a basic 2-player strategy game. It is played on a 3 by 3 grid, dr
 Each time a move is made, the game replaces the existing board with a new one that contains the most recent input (except for when the player goes first, as no move has been made for this instance of board generation). When the computer's turn begins, it accesses a duplicate of the most recent board state (containing the newest player move) and performs a series of checks, listed in priority order, based on an algorithm. The computer will make a move based on the first check that meets the criteria (the final check will return true if the others do not).
 
 ![Computer Algorithm](assets/readme_files/Tic-Tac-Toe-AI_algorithm.png)
-
 
 
 ## Features for Future Implementation
