@@ -1,3 +1,9 @@
+## Tic-Tac-Toe Game
+
+![Tic-Tac-Toe Mockup Images](assets/readme_files/am_i_responsive.PNG)
+
+![The live project is here](https://jonslack-tic-tac-toe.herokuapp.com/)
+
 ## Introduction
 
 This project represents Portfolio Project 3 of Code Institute's Full Stack Software Development diploma. The primary programming language for project 3 is Python. I decided to create a Python version of Tic-Tac-Toe, or "Noughts and Crosses", as it is sometimes referred to.
@@ -22,7 +28,7 @@ The ideal user for this game is:
 2. As a returning player, I want to play against a challenging computer opponent. 
 
 ### Development-Planes
-I wanted to create a command-line application that allows the user to play Tic-Tac-Toe against a challenging computer opponent. For users completely new to the game, it is a tough ask for them to successfully win. However, the computer does not make perfect moves (unlike the OXO game noted above), so victory is possible. By eventually achieving victory in this way, a new user will have built a knowledge base of a sequence of moves that maximise their odds of winning. 
+I wanted to create a command-line application that allows the user to play Tic-Tac-Toe against a challenging computer opponent. For users completely new to the game, it is a tough ask for them to successfully win. However, the computer will not always make perfect moves (unlike the OXO game noted above), so victory is possible. By eventually achieving victory in this way, a new user will have built a knowledge base of a sequence of moves that maximise their odds of winning. 
 
 #### Strategy
 When building a website or application, a developer must consider user needs as well as product objectives. The game focuses on the following target audience, divided into three main categories:
@@ -32,7 +38,7 @@ When building a website or application, a developer must consider user needs as 
     - Current users
 
 - **Demographic:**
-    - All ages and genders
+    - All ages
     - All playing level competencies
 
 - **Psychographic:**
@@ -73,8 +79,6 @@ A flowchart was created to show the logic the game's functions would follow.
 ![Flowchart](assets/readme_files/Tic-Tac-Toe%20--%20Game%20Progressions.png)
 
 </details>
-
-[Back to top ⇧](#)
 
 ## Features
 
@@ -160,6 +164,32 @@ Each time a move is made, the game replaces the existing board with a new one th
 - [Lucid](https://lucid.app/ "Link to Lucid homepage")
     - Lucid was used to create a flowchart of information in two instances; namely, for the nature of game progression, and the algorithm of the computer.
 
+## Manual Testing
+
+#### New User Goals:
+1. As a new player, I want to see clear instructions for the game.
+  - When the program first loads, an introduction appears, telling the user how to play the game.
+  
+2. As a new player, I want to see clear visual representation of the moves both I and the computer have made.
+  - On making a move, the board instantly updates with the player's move, using their letter. This is then followed by the computer doing the same.
+
+3. As a new player, I want the ability to replay the game.
+  - At the end of the game, regardless of the outcome, the user is given the option to enter yes to replay or no to end the game. Inputs of y and n are also accepted here.
+
+#### Current User
+1. As a returning player, I want the ability to replay the game.
+  - At the end of the game, regardless of the outcome, the user is given the option to enter yes to replay or no to end the game. Inputs of y and n are also accepted here.
+
+2. 2. As a returning player, I want to play against a challenging computer opponent. 
+  - A five-step algorithm that includes checks for winning moves and blocking winning moves from the player ensures that victory is not easy. It is, of course, not impossible.
+
+### Common Elements Testing
+
+- Most of the game's functions and the last three components of the computer algorithm were planned for and tested in advance of the project's commencement on Gitpod, with a Python code validator being used for each of these.
+- Gitpod's Terminal was used for the vast majority of testing the game's functionality as a whole; tests were frequent and vastly outnumbers the commit history of this project.
+- The debugging fucntion in Gitpod was used selectively and infrequently, and only when Gitpod's natural highlighting of sub-optimal syntax, warnings of unreachable code and flagging of improper indenting did not lead me to the trail of solving issues organically.
+- Testing was conducted by myself and a software tester friend of mine, Paolo Ferrier, on different browsers after deployment to a Heroku terminal.
+
 
 ## Automated Testing
 
@@ -178,7 +208,45 @@ The [PEP8 Online Checker](https://extendsclass.com/python-tester.html/) was used
 
 ## User Testing
 
-The project was tested by my friend, a software tester and developer by trade, who provided useful suggestions on improving the UI and critiquing the project as a whole.
+The project was tested by my friend, a software tester and developer by trade, who provided useful suggestions on improving the UI and critiquing the project as a whole. He found the input of 1-9 for placing letters on the grid counter-intuitive, and said he would have preferred the top and bototm row inputs be reversed; however, I pointed out that calculators and keyboards typically use the layout already in use by the game. This is referred to in the instructions for the game.
+
+
+## Deployment
+### GitHub
+This project was developed using [GitPod](https://www.gitpod.io/ "Link to GitPod site"), which was then committed and pushed to GitHub using the GitPod terminal. To create a GitHub repository you must:
+
+1. Sign in to your Github account.
+2. On the top left of the home screen, click the 'New' button.
+3. Under 'Repository template', select the required template from the dropdown.
+4. Enter a repository name and description of your project.
+5. You can choose to make this project public or private.
+6. There is an option of adding a README file, a .gitignore file, or choosing a license.
+7. Click the 'Create Repository' button and your repository will be created.
+
+### GitHub Forking and Cloning
+
+It is my wish that the current project not be cloned or forked without my advance permission. Please conatct me at jonathanslack89@ymail.com if you wish to do so, or if you want to collaborate with me on advancing the projhect further.
+
+### Deploying on Heroku
+To deploy this project to Heroku from its GitHub repository, the following steps were taken:
+
+1. In my repository, type "pip freeze > requirements.txt" to create the list of dependencies to the requirements.txt file. Save, commit and push your changes to GitHub.
+
+2. Create an account with [Heroku](https://www.heroku.com/ "Link to Heroku site"), selecting Python as the 'Primary development language'.
+
+3. Go to your emails and click the link to verify your email address. The link will bring you to a page where you can create a password. Create a password and log in.
+
+4. On the dashboard, click the 'create new app' button. Enter a unique name for your app and select your region. Click 'Create App'.
+
+5. Go to the settings tab and click 'Reveal Config Vars'. Enter PORT as the KEY value and 8000 as the VALUE value.
+
+6. Click 'Add Buildpack' and select 'Python' and 'Nodejs'. Python MUST be on the top of the list. Dragging and dropping these buildpacks is possible if a mistake is made.
+
+7. Go to the deploy tab and, under 'Deployment method', click 'GitHub' and then 'Connect to GitHub'.
+
+8. In 'Connect to GitHub', search for the repository you wish to use, then click 'Connect'.
+
+9. Selecting 'Enable Automatic Deploys', means Heroku will rebuild the app every time you push a change to GitHub. You can also choose to manually deploy using the 'Deploy Branch' option. Heroku rebuilds the app, then clicking the 'View' button will generate a terminal with the newly updated app when finished.
 
 ## Credits
 
@@ -201,5 +269,3 @@ I consulted a wide array of sites for ideas and examples of how to structure a P
 
 - I would like to thank my friend and software tester, Paolo Ferrier, for his help in testing the project
 - I would like to thank my mentor Seun, for pointing me in the right direction in researching for building a Tic Tac Toe game.
-
-[Back to top ⇧](#)
