@@ -199,7 +199,7 @@ The [PEP8 Online Checker](https://extendsclass.com/python-tester.html/) was used
 
 **Outcome**
 
-![run.py Validation results](assets/readme_files/pep8_validation.PNG.png)
+![run.py Validation results](assets/readme_files/pep8_validation.PNG)
 
 
 ## User Testing
