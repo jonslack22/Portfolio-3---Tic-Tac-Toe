@@ -2,6 +2,12 @@
 import random
 import os
 
+board = [" " for x in range(9)]
+
+PLAYER_LETTER = "X"
+AI_LETTER = "O"
+player_number = 1
+
 
 C = "{:^80}".format
 C2 = "{:^82}".format
@@ -30,72 +36,128 @@ def intro_message():
                 \_/ |_|\___|   \_/\__,_|\___|   \_/\___/ \___|
 \u001b[0m
 """)
-
     print(C("Welcome to Jonathan Slack's Tic Tac Toe!\n"))
-    print(C("RULES: Take turns marking spaces in a 3*3 grid against a "
-            "computer opponent.\n"))
-    print(C("The 3*3 grid is laid out like a calculator:\n"))
-    print(C("The top row represents numbers    7, 8 and 9;"))
-    print(C("The middle row represents numbers 4, 5 and 6;"))
-    print(C("The bottom row represents numbers 1, 2 and 3.\n"))
-    print(C("The player who succeeds in placing three marks, represented by X "
-            "and 0, in a "))
-    print(C("horizontal, vertical, or diagonal row, wins.\n"))
-    input(C("Press Enter to continue.\n"))
-    clear_console()
+    print(C("1. Play against another player"))
+    print(C("2. Play against the basic AI"))
+    print(C("3. Play against the advanced AI"))
+    print(C("4. View the rules of the game"))
 
 
-def create_grid(grid):
+def print_board():
+    row1 = "|".join(board[6:9])
+    row2 = "|".join(board[3:6])
+    row3 = "|".join(board[:3])
+    print()
+    print(row1)
+    print("-+-+-")
+    print(row2)
+    print("-+-+-")
+    print(row3)
+    print()
+
+
+def player_move(player_number):
+    if player_number == 1:
+        print("Your turn, Player 1")
+        icon = PLAYER_LETTER
+    else:
+        print("Your turn, Player 2")
+        icon = AI_LETTER
+    while True:
+        move = int(input("Enter your move (1-9): "))
+        if move in range(1, 10) and board[move-1] == " ":
+            board[move-1] = icon
+            player_number = 3 - player_number  # Switch the player
+            if player_number == 1:
+                icon = PLAYER_LETTER
+            else:
+                icon = AI_LETTER
+            break
+        print("Invalid move. Please try again.")
+
+
+def is_victory(icon):
     """
-    This function prints out the grid that it was passed. A
-    list of 10 strings represents the grid. Index 0 is ignored.
+    There are eight winning combinations in tic-tac-toe; all are listed below.
+    Each is checked for inside a nested 'while' loop further on.
     """
-    print(BR)
-    print(BR)
-    print(C('   |   |'))
-    print(C2(' ' + grid[7] + ' | ' + grid[8] + ' | ' + grid[9]))
-    print(C('   |   |'))
-    print(C3('-----------'))
-    print(C('   |   |'))
-    print(C2(' ' + grid[4] + ' | ' + grid[5] + ' | ' + grid[6]))
-    print(C('   |   |'))
-    print(C3('-----------'))
-    print(C('   |   |'))
-    print(C2(' ' + grid[1] + ' | ' + grid[2] + ' | ' + grid[3]))
-    print(C('   |   |'))
+    return (board[6] == icon and board[7] == icon and board[8] == icon) or \
+        (board[3] == icon and board[4] == icon and board[5] == icon) or \
+        (board[0] == icon and board[1] == icon and board[2] == icon) or \
+        (board[6] == icon and board[3] == icon and board[0] == icon) or \
+        (board[7] == icon and board[4] == icon and board[1] == icon) or \
+        (board[8] == icon and board[5] == icon and board[2] == icon) or \
+        (board[6] == icon and board[4] == icon and board[2] == icon) or \
+        (board[8] == icon and board[4] == icon and board[0] == icon)
 
 
-def choose_letter():
+def is_draw():
+    if " " not in board:
+        return True
+
+    return False
+
+
+def basic_ai():
     """
-    This function lets the player choose which letter they want to be,
-    returning a list with the player’s letter as the first item, and the
-    computer's letter as the second.
-
-    The first element in the list is the player’s letter, the second is the
-    computer's letter.
+    This computer opponent will assign its letter to the board in a random spot.
     """
-    letter = set(("X", "O"))
-    print(BR)
-    print(BR)
-    print(BR)
-    print(C('Do you want to be X or O?'))
-    letter = input().upper()
+    available = [i for i, x in enumerate(board) if x == " "]
+    move = random.choice(available)
+    board[move] = "O"
 
-    if letter == 'X':
-        return ['X', 'O']
 
-    return ['O', 'X']
+def advanced_ai():
+    """
+    This computer opponent is smarter than the other, in that it will block the
+    player from winning on their next turn, and will choose a winning move if
+    the player doesn't block it themselves.
+    """
+    winning_combinations = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8],
+        [0, 3, 6], [1, 4, 7], [2, 5, 8],
+        [0, 4, 8], [2, 4, 6]
+    ]
+    count_o = 0
+    count_x = 0
+    # The AI checks for winning combinations and returns it
+    for combination in winning_combinations:
+        for i in combination:
+            if board[i] == "O":
+                count_o += 1
+            elif board[i] == "X":
+                count_x += 1
+            else:
+                open_spot = i
+        if count_o == 2 and count_x == 0:
+            board[open_spot] = "O"
+            return
+        count_o = 0
+        count_x = 0
+
+    # Check for winning combinations for player and block them
+    for combination in winning_combinations:
+        for i in combination:
+            if board[i] == "X":
+                count_x += 1
+            elif board[i] == "O":
+                count_o += 1
+            else:
+                open_spot = i
+        if count_x == 2 and count_o == 0:
+            board[open_spot] = "O"
+            return
+        count_x = 0
+        count_o = 0
+
+    # Otherwise, select random empty spot
+    available = [i for i, x in enumerate(board) if x == " "]
+    move = random.choice(available)
+    board[move] = "O"
 
 
 def turn_order():
-    """
-    A function that randomly chooses who goes first. Effectively, this is a
-    coin flip.
-    """
-    if random.randint(0, 1) == 0:
-        return 'computer'
-
-    return 'player'
+    return random.randint(0, 1)
 
 
 def replay():
@@ -111,198 +173,144 @@ def replay():
     return input().lower().startswith('y')
 
 
-def make_a_move(grid, letter, move):
-    """
-    This function assigns a letter, X or O, to one of the positions on
-    the grid (defined as an integer) for the player or computer move.
-    """
-    grid[move] = letter
+intro_message()
+choice = int(input("Choose an option: "))
 
-
-def win_condition(gr, le):
-    """
-    Given a grid and the player’s letter, this function returns True if the
-    player has won. Grid and letter are abbreviated to 'gr' and 'le',
-    respectively.
-
-    There are eight winning combinations in tic-tac-toe; all are listed below.
-    Each is checked for inside a nested 'while' loop further on.
-    """
-    return ((gr[7] == le and gr[8] == le and gr[9] == le) or  # across top
-            (gr[4] == le and gr[5] == le and gr[6] == le) or  # across middle
-            (gr[1] == le and gr[2] == le and gr[3] == le) or  # across bottom
-            (gr[7] == le and gr[4] == le and gr[1] == le) or  # down left side
-            (gr[8] == le and gr[5] == le and gr[2] == le) or  # down middle
-            (gr[9] == le and gr[6] == le and gr[3] == le) or  # down right side
-            (gr[7] == le and gr[5] == le and gr[3] == le) or  # diagonal 1
-            (gr[9] == le and gr[5] == le and gr[1] == le))  # diagonal 2
-
-
-def get_grid_copy(grid):
-    """
-    This function makes a duplicate of the grid list and returns it.
-    The duplicate is used by the computer to make non-permanent changes
-    to a temporary copy of the grid without changing the original.
-    """
-    copy_grid = []
-    for i in grid:
-        copy_grid.append(i)
-    return copy_grid
-
-
-def check_free_space(grid, move):
-    """
-    This function returns true if the passed move is free on the current grid.
-    """
-    return grid[move] == ' '
-
-
-def player_move(grid):
-    """
-    This function lets the player type in their move.
-
-    The loop ensures the execution doesn't occur until the player has typed
-    an integer between 1-9 that represents a free space on the current grid.
-    """
-    move = ' '
-    while move not in '1 2 3 4 5 6 7 8 9'.split() or not check_free_space(grid, int(move)):
-        print(BR)
-        print(C('Please enter your next move (1-9)'))
-        move = input()
-    return int(move)
-
-
-def choose_random_possible_move(grid, move_list):
-    """
-    This function is for the benefit of the computer. It returns a valid move 
-    from the passed list on the passed grid. It returns None if there is no 
-    valid move.
-    """
-    possible_moves = []
-    for i in move_list:
-        if check_free_space(grid, i):
-            possible_moves.append(i)
-
-    if len(possible_moves) != 0:
-        return random.choice(possible_moves)
-
-    return None
-
-
-def computer_move(grid, computer_letter):
-    """
-    This function contains the computer's algorithm, defined by five seperate
-    checks of the current game state. Each check completes in listed order.
-
-    The variables 'computer_letter' and 'player_letter' allows the same code
-    to be used whatever letter the computer is assigned.
-    """
-    if computer_letter == 'X':
-        player_letter = 'O'
-    else:
-        player_letter = 'X'
-
-    # Checks if a winning move exists. If not, move to the next step.
-
-    for i in range(1, 10):
-        copy = get_grid_copy(grid)
-
-        if check_free_space(copy, i):
-            make_a_move(copy, computer_letter, i)
-        if win_condition(copy, computer_letter):
-            return i
-
-    # If a winning move exists for the player, the computer will stop it. If
-    # not, move to the next step.
-
-    for i in range(1, 10):
-        copy = get_grid_copy(grid)
-        if check_free_space(copy, i):
-            make_a_move(copy, player_letter, i)
-        if win_condition(copy, player_letter):
-            return i
-    
-    # Checks for an available space in the four corners. If none are free,
-    # move to the next step.
-
-    move = choose_random_possible_move(grid, [1, 3, 7, 9])
-    if move is not None:
-        return move
-
-    # Checks if the center space is available. If not, move to the next step.
-
-    if check_free_space(grid, 5):
-        return 5
-
-    # Take a space on the sides.
-
-    return choose_random_possible_move(grid, [2, 4, 6, 8])
-
-
-def is_grid_full(grid):
-    """
-    If every space on the grid is filled, this returns True.
-    """
-    for i in range(1, 10):
-        if check_free_space(grid, i):
-            return False
-    return True
+current_player = 1
 
 
 while True:
-    # This 'while' loop resets the grid on starting the game and executes
-    # the game's functions so long as the loop returns True.
 
-    # Reset the grid
-    intro_message()
-    the_grid = [' '] * 10
-    player_letter, computer_letter = choose_letter()
-    TURN = turn_order()
-    input(C('The ' + TURN + ' will go first. Press Enter to continue.\n'))
+    board = [" " for x in range(9)]  # This resets the board
     GAME_ACTIVE = True
 
-    while GAME_ACTIVE:
-        if TURN == 'player':
-            # The player’s turn.
-            clear_console()
-            create_grid(the_grid)
-            MOVE = player_move(the_grid)
-            make_a_move(the_grid, player_letter, MOVE)
+    # Player vs Player
+    if choice == 1:
 
-            if win_condition(the_grid, player_letter):
+        print('Please decide between yourselves who goes first.')
+        input('When you are ready, press Enter to continue.\n')
+
+        while GAME_ACTIVE:
+            clear_console()
+            print_board()
+            player_move(current_player)
+            if is_victory(PLAYER_LETTER):
                 clear_console()
-                create_grid(the_grid)
-                print(BR)
-                print(C('Congratulations! You have won the game!'))
+                print_board()
+                print("Player 1 wins!")
                 GAME_ACTIVE = False
-            elif is_grid_full(the_grid):
-                clear_console()
-                create_grid(the_grid)
-                print(BR)
-                print(C('The game is a tie!'))
                 break
-            else:
-                TURN = 'computer'
+            if is_victory(AI_LETTER):
+                clear_console()
+                print_board()
+                print("Player 2 wins!")
+                GAME_ACTIVE = False
+                break
+            if is_draw():
+                clear_console()
+                print_board()
+                print("It's a draw!")
+                GAME_ACTIVE = False
+                break
+            current_player = 3 - current_player
+
+    # Player versus the basic AI
+    if choice == 2:
+        turn_order()
+        if turn_order() == 0:
+            print("The AI will go first. Press Enter to continue")
+            input()
+            basic_ai()  # call the basic_ai() function
         else:
-            # The computer’s turn.
+            print("You will go first. Press Enter to continue")
+            input()
+        while True:
             clear_console()
-            move = computer_move(the_grid, computer_letter)
-            make_a_move(the_grid, computer_letter, move)
-
-            if win_condition(the_grid, computer_letter):
-                clear_console()
-                create_grid(the_grid)
-                print(BR)
-                print(C('The computer has beaten you! You lose.'))
+            print_board()
+            player_move(player_number)
+            if is_victory(PLAYER_LETTER):
+                print_board()
+                print("You win! Congratulations!")
                 GAME_ACTIVE = False
-            elif is_grid_full(the_grid):
-                clear_console()
-                create_grid(the_grid)
-                print(BR)
-                print(C('The game is a tie!'))
                 break
-            else:
-                TURN = 'player'
+            if is_draw():
+                clear_console()
+                print_board()
+                print("It's a draw!")
+                break
+            basic_ai()
+            print_board()
+            if is_victory(AI_LETTER):
+                clear_console()
+                print_board()
+                print("AI wins! Better luck next time.")
+                GAME_ACTIVE = False
+                break
+            if is_draw():
+                clear_console()
+                print_board()
+                print("It's a draw!")
+                GAME_ACTIVE = False
+                break
+
+    # Player versus the advanced AI
+    if choice == 3:
+        turn_order()
+        if turn_order() == 0:
+            print("The AI will go first. Press Enter to continue")
+            input()
+            advanced_ai()  # call the advanced_ai() function
+        else:
+            print("You will go first. Press Enter to continue")
+            input()
+        while True:
+            clear_console()
+            print_board()
+            player_move(player_number)
+            if is_victory(PLAYER_LETTER):
+                clear_console()
+                print_board()
+                print("You win! Congratulations!")
+                GAME_ACTIVE = False
+                break
+            if is_draw():
+                clear_console()
+                print_board()
+                print("It's a draw!")
+                break
+            advanced_ai()
+            print_board()
+            if is_victory(AI_LETTER):
+                clear_console()
+                print_board()
+                print("AI wins! Better luck next time.")
+                break
+            if is_draw():
+                clear_console()
+                print_board()
+                print("It's a draw!")
+                break
+    
+    # View the rules of the game
+    if choice == 4:
+        clear_console()
+        print(C("Players take turns marking spaces in a 3*3 grid against an "
+                "opponent.\n"))
+        print(C("The 3*3 grid is laid out like a calculator:\n"))
+        print(C("The top row represents numbers    7, 8 and 9;"))
+        print(C("The middle row represents numbers 4, 5 and 6;"))
+        print(C("The bottom row represents numbers 1, 2 and 3.\n"))
+        print(C("The player who succeeds in placing three marks, represented "
+                "by X and 0, in a "))
+        print(C("horizontal, vertical, or diagonal row, wins.\n"))
+        print(C("If one of the players is the AI, their turn will "
+                "happen immediately after the player")) 
+        print(C("makes their move."))
+        print(BR)
+        input(C("Press ESC to return to the menu.\n"))
+        clear_console()
+        intro_message()
+    
     if not replay():
         clear_console()
-        break
+        intro_message()
