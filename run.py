@@ -1,5 +1,7 @@
 # Project libraries
+import keyboard
 import random
+import time
 import os
 
 board = [" " for x in range(9)]
@@ -7,6 +9,11 @@ board = [" " for x in range(9)]
 PLAYER_LETTER = "X"
 AI_LETTER = "O"
 player_number = 1
+
+
+# Variables to keep track of game mode and last opponent
+game_mode = None
+last_opponent = None
 
 
 C = "{:^80}".format
@@ -19,29 +26,7 @@ def clear_console():
     """ Clears the console of previously generated information.
     """
     os.system("cls" if os.name == "nt" else "clear")
-
-
-def intro_message():
-    """ This function displays a welcome message in every new game instance
-    """
-    clear_console()
-    print(
-        """\
-    \u001b[32m
-               _____ _        _____            _____          
-              |_   _(_)      |_   _|          |_   _|
-                | |  _  ___    | | __ _  ___    | | ___   ___ 
-                | | | |/ __|   | |/ _` |/ __|   | |/ _ \ / _ |
-                | | | | (__    | | (_| | (__    | | (_) |  __/
-                \_/ |_|\___|   \_/\__,_|\___|   \_/\___/ \___|
-\u001b[0m
-""")
-    print(C("Welcome to Jonathan Slack's Tic Tac Toe!\n"))
-    print(C("1. Play against another player"))
-    print(C("2. Play against the basic AI"))
-    print(C("3. Play against the advanced AI"))
-    print(C("4. View the rules of the game"))
-
+        
 
 def print_board():
     row1 = "|".join(board[6:9])
@@ -160,140 +145,64 @@ def turn_order():
     return random.randint(0, 1)
 
 
-def replay():
+def get_move(player_number):
     """
-    This function returns True if the player wants to play the game again,
-    otherwise it returns False.
-
-    Any input that starts with the letter 'y', capitalised or not, will return
-    True.
+    This function gets the player's move or the computer's move, depending on
+    whose turn it is.
     """
-    print(BR)
-    print(C('Do you want to play again? (yes or no)'))
-    return input().lower().startswith('y')
+    if player_number == 1 or player_number == 2:
+        player_move(player_number)
+    elif player_number == 3:
+        basic_ai()
+    elif player_number == 4:
+        advanced_ai()
 
 
-intro_message()
-choice = int(input("Choose an option: "))
+def get_opponent():
+    """
+    This function allows the player to select an opponent. The 'player_number'
+    variable is used to track who's turn it is (and therefore, which function
+    to call in the 'get_move' function.
+    """
+    global player_number
+    clear_console()
+    print(C("Who would you like to play against?"))
+    print(C("1. Another player"))
+    print(C("2. Basic AI"))
+    print(C("3. Advanced AI"))
+    opponent = input("Please enter a number (1-3): ")
+    if opponent == "1":
+        player_number = 1
+    elif opponent == "2":
+        player_number = 3
+    elif opponent == "3":
+        player_number = 4
 
-current_player = 1
 
-
-while True:
-
-    board = [" " for x in range(9)]  # This resets the board
-    GAME_ACTIVE = True
-
-    # Player vs Player
-    if choice == 1:
-
-        print('Please decide between yourselves who goes first.')
-        input('When you are ready, press Enter to continue.\n')
-
-        while GAME_ACTIVE:
-            clear_console()
-            print_board()
-            player_move(current_player)
-            if is_victory(PLAYER_LETTER):
-                clear_console()
-                print_board()
-                print("Player 1 wins!")
-                GAME_ACTIVE = False
-                break
-            if is_victory(AI_LETTER):
-                clear_console()
-                print_board()
-                print("Player 2 wins!")
-                GAME_ACTIVE = False
-                break
-            if is_draw():
-                clear_console()
-                print_board()
-                print("It's a draw!")
-                GAME_ACTIVE = False
-                break
-            current_player = 3 - current_player
-
-    # Player versus the basic AI
-    if choice == 2:
-        turn_order()
-        if turn_order() == 0:
-            print("The AI will go first. Press Enter to continue")
-            input()
-            basic_ai()  # call the basic_ai() function
-        else:
-            print("You will go first. Press Enter to continue")
-            input()
-        while True:
-            clear_console()
-            print_board()
-            player_move(player_number)
-            if is_victory(PLAYER_LETTER):
-                print_board()
-                print("You win! Congratulations!")
-                GAME_ACTIVE = False
-                break
-            if is_draw():
-                clear_console()
-                print_board()
-                print("It's a draw!")
-                break
-            basic_ai()
-            print_board()
-            if is_victory(AI_LETTER):
-                clear_console()
-                print_board()
-                print("AI wins! Better luck next time.")
-                GAME_ACTIVE = False
-                break
-            if is_draw():
-                clear_console()
-                print_board()
-                print("It's a draw!")
-                GAME_ACTIVE = False
-                break
-
-    # Player versus the advanced AI
-    if choice == 3:
-        turn_order()
-        if turn_order() == 0:
-            print("The AI will go first. Press Enter to continue")
-            input()
-            advanced_ai()  # call the advanced_ai() function
-        else:
-            print("You will go first. Press Enter to continue")
-            input()
-        while True:
-            clear_console()
-            print_board()
-            player_move(player_number)
-            if is_victory(PLAYER_LETTER):
-                clear_console()
-                print_board()
-                print("You win! Congratulations!")
-                GAME_ACTIVE = False
-                break
-            if is_draw():
-                clear_console()
-                print_board()
-                print("It's a draw!")
-                break
-            advanced_ai()
-            print_board()
-            if is_victory(AI_LETTER):
-                clear_console()
-                print_board()
-                print("AI wins! Better luck next time.")
-                break
-            if is_draw():
-                clear_console()
-                print_board()
-                print("It's a draw!")
-                break
+def intro_message():
+    """ This function displays a welcome message in every new game instance
+    """
+    clear_console()
+    print(
+        """\
+    \u001b[32m
+               _____ _        _____            _____          
+              |_   _(_)      |_   _|          |_   _|
+                | |  _  ___    | | __ _  ___    | | ___   ___ 
+                | | | |/ __|   | |/ _` |/ __|   | |/ _ \ / _ |
+                | | | | (__    | | (_| | (__    | | (_) |  __/
+                \_/ |_|\___|   \_/\__,_|\___|   \_/\___/ \___|
+\u001b[0m
+""")
+    print(C("Welcome to Jonathan Slack's Tic Tac Toe!\n"))
     
-    # View the rules of the game
-    if choice == 4:
+    print(C("If you would like to view the rules of the game, please "
+                    "type 'R'.\n")) 
+    rules = input(C("Otherwise, press Enter to continue."))
+
+    if rules.lower() == 'r':
         clear_console()
+        print(C("Here are the rules of the game:\n"))
         print(C("Players take turns marking spaces in a 3*3 grid against an "
                 "opponent.\n"))
         print(C("The 3*3 grid is laid out like a calculator:\n"))
@@ -306,11 +215,119 @@ while True:
         print(C("If one of the players is the AI, their turn will "
                 "happen immediately after the player")) 
         print(C("makes their move."))
-        print(BR)
-        input(C("Press ESC to return to the menu.\n"))
+        while True:
+            print("Press Esc to exit.")
+            if keyboard.is_pressed('esc'):
+                intro_message()
+    clear_console()
+    get_opponent()
+
+
+intro_message()
+current_player = 1
+
+def game_loop(opponent, board):
+    """ This function handles the game logic for Tic Tac Toe
+    """
+    while True:
+        board = [" " for x in range(9)]  # This resets the board
+        GAME_ACTIVE = True
+        
+        # Decide who goes first
+        if opponent != 1:
+            turn_order()
+            if turn_order() == 0:
+                print("The AI will go first. Press Enter to continue")
+                input()
+                if opponent == 2:
+                    basic_ai()
+                elif opponent == 3:
+                    advanced_ai()
+            else:
+                print("You will go first. Press Enter to continue")
+                input()
+        
+        # Game loop for player vs player
+        if opponent == 1:
+            print('Please decide between yourselves who goes first.')
+            input('When you are ready, press Enter to continue.\n')
+            current_player = 1
+            while GAME_ACTIVE:
+                clear_console()
+                print_board()
+                player_move(current_player)
+                if is_victory(PLAYER_LETTER):
+                    clear_console()
+                    print_board()
+                    print(f"Player {current_player} wins!")
+                    GAME_ACTIVE = False
+                    break
+                if is_draw():
+                    clear_console()
+                    print_board()
+                    print("It's a draw!")
+                    GAME_ACTIVE = False
+                    break
+                current_player = 3 - current_player
+        
+        # Game loop for player vs AI
+        else:
+            player_number = 1
+            while GAME_ACTIVE:
+                clear_console()
+                print_board()
+                if player_number == 1:
+                    player_move(player_number)
+                    if is_victory(PLAYER_LETTER):
+                        clear_console()
+                        print_board()
+                        print("You win! Congratulations!")
+                        GAME_ACTIVE = False
+                        break
+                    if is_draw():
+                        clear_console()
+                        print_board()
+                        print("It's a draw!")
+                        GAME_ACTIVE = False
+                        break
+                    player_number = 2
+                else:
+                    if opponent == 2:
+                        basic_ai()
+                    elif opponent == 3:
+                        advanced_ai()
+                    print_board()
+                    if is_victory(AI_LETTER):
+                        clear_console()
+                        print_board()
+                        print("AI wins! Better luck next time.")
+                        GAME_ACTIVE = False
+                        break
+                    if is_draw():
+                        clear_console()
+                        print_board()
+                        print("It's a draw!")
+                        GAME_ACTIVE = False
+                        break
+                    player_number = 1
+
+
+def play_again(opponent, player_number):
+    """
+    This function allows the player to start a new game after the previous
+    game has ended.
+    """
+    global board
+    clear_console()
+    print(C("Do you want to play again?"))
+    print(C("1. Yes"))
+    print(C("2. No"))
+    play_again = input("Please enter a number (1-2): ")
+    if play_again == "1":
         clear_console()
-        intro_message()
-    
-    if not replay():
+        board = [" " for x in range(9)]
+        game_loop(opponent, board)
+    elif play_again == "2":
         clear_console()
+        player_number = 0
         intro_message()
